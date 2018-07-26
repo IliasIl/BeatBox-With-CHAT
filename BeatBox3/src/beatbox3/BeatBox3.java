@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beatbox3;
 
 import java.awt.*;
@@ -156,7 +151,17 @@ public class BeatBox3 {
 
         for (int i = 0; i < 16; i++) {
             trackList = new ArrayList<Integer>();
+            for (int j = 0; i < 16; i++) {
+                JCheckBox jc = (JCheckBox) checkBoxList.get(j + (16 * i));
+                if (jc.isSelected()) {
+                    int key = instruments[i];
+                    trackList.add(new Integer(key));
+                } else {
+                    trackList.add(null);
+                }
 
+            }
+//makeTracks(trackList);
         }
     }
 
