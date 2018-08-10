@@ -73,15 +73,31 @@ public class BeatBox3 {
 
         Box buttonBox = new Box(BoxLayout.Y_AXIS);
         JButton start = new JButton("START");
-        //  start.addActionListener(new MyStartListener);
+        start.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ev){
+                BuildTrackAndStart();
+            }
+        });
         buttonBox.add(start);
 
         JButton stop = new JButton("STOP");
-        //start.addActionListener(new MyStopListener);
+        stop.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ev){
+                sequencer.stop();
+            }
+        });
         buttonBox.add(stop);
 
         JButton upTempo = new JButton("TEMPO UP");
-        //  start.addActionListener(new MyUpTempoListener);
+        upTempo.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ev){
+                float fl= sequencer.getTempoFactor();
+                sequencer.setTempoFactor((float) (fl*1.03));
+            }
+        });
         buttonBox.add(upTempo);
 
         JButton downTempo = new JButton("TEMPO DOWN");
@@ -163,6 +179,30 @@ public class BeatBox3 {
             }
 //makeTracks(trackList);
         }
+        track.add(makeEvent(192, 9, 1, 0, 15));
+            try {
+                sequencer.setSequence(sequence);
+                sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
+                sequencer.start();
+                sequencer.setTempoInBPM(120);
+                
+            }catch(Exception ee){ee.printStackTrace();}
     }
 
+    
+    
+    
+    
+    
+    public MidiEvent makeEvent(int comb, int chan, int one, int two, int tick) {
+        MidiEvent event = null;
+        try {
+            ShortMessage a = new ShortMessage();
+            a.setMessage(comb, chan, one, two);
+            event = new MidiEvent(a, tick);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return event;
+    }
 }
